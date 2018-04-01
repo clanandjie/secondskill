@@ -18,6 +18,9 @@ public class RedisConnfig {
     private String poolMaxIdle;
     private String poolMaxWait;
 
+    public RedisConnfig() {
+    }
+
     public String getHost() {
         return host;
     }
