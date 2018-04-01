@@ -18,5 +18,59 @@ public class RedisConnfig {
     private String poolMaxIdle;
     private String poolMaxWait;
 
+    public String getHost() {
+        return host;
+    }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPoolMaxTotal() {
+        return poolMaxTotal;
+    }
+
+    public void setPoolMaxTotal(String poolMaxTotal) {
+        this.poolMaxTotal = poolMaxTotal;
+    }
+
+    public String getPoolMaxIdle() {
+        return poolMaxIdle;
+    }
+
+    public void setPoolMaxIdle(String poolMaxIdle) {
+        this.poolMaxIdle = poolMaxIdle;
+    }
+
+    public String getPoolMaxWait() {
+        return poolMaxWait;
+    }
+
+    public void setPoolMaxWait(String poolMaxWait) {
+        this.poolMaxWait = poolMaxWait;
+    }
 }
