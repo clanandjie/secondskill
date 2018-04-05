@@ -12,6 +12,9 @@ public class CodeMsg {
         this.code = code;
     }
 
+    Class clazz;
+    Object obj;
+
     public String getMsg() {
         return msg;
     }

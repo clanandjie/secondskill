@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix="redis")
-public class RedisConnfig {
+public class RedisConfig {
     private String host;
-    private String port;
-    private String timeout;
+    private int port;
+    private int timeout;            //second
     private String password;
-    private String poolMaxTotal;
-    private String poolMaxIdle;
-    private String poolMaxWait;
+    private int poolMaxTotal;
+    private int poolMaxIdle;
+    private int poolMaxWait;       //second
 
-    public RedisConnfig() {
+    public RedisConfig() {
     }
 
     public String getHost() {
@@ -29,19 +29,19 @@ public class RedisConnfig {
         this.host = host;
     }
 
-    public String getPort() {
+    public int getPort() {
         return port;
     }
 
-    public void setPort(String port) {
+    public void setPort(int port) {
         this.port = port;
     }
 
-    public String getTimeout() {
+    public int getTimeout() {
         return timeout;
     }
 
-    public void setTimeout(String timeout) {
+    public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
 
@@ -53,27 +53,27 @@ public class RedisConnfig {
         this.password = password;
     }
 
-    public String getPoolMaxTotal() {
+    public int getPoolMaxTotal() {
         return poolMaxTotal;
     }
 
-    public void setPoolMaxTotal(String poolMaxTotal) {
+    public void setPoolMaxTotal(int poolMaxTotal) {
         this.poolMaxTotal = poolMaxTotal;
     }
 
-    public String getPoolMaxIdle() {
+    public int getPoolMaxIdle() {
         return poolMaxIdle;
     }
 
-    public void setPoolMaxIdle(String poolMaxIdle) {
+    public void setPoolMaxIdle(int poolMaxIdle) {
         this.poolMaxIdle = poolMaxIdle;
     }
 
-    public String getPoolMaxWait() {
+    public int getPoolMaxWait() {
         return poolMaxWait;
     }
 
-    public void setPoolMaxWait(String poolMaxWait) {
+    public void setPoolMaxWait(int poolMaxWait) {
         this.poolMaxWait = poolMaxWait;
     }
 }

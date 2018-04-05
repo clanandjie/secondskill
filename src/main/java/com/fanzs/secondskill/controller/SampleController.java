@@ -1,9 +1,11 @@
 package com.fanzs.secondskill.controller;
 
 import com.fanzs.secondskill.entity.User;
+import com.fanzs.secondskill.redis.RedisService;
 import com.fanzs.secondskill.result.Result;
 import com.fanzs.secondskill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.session.SessionProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SampleController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
 
     @RequestMapping("/thymeleaf")
     public String thymeleaf(Model model){
@@ -37,5 +42,12 @@ public class SampleController {
     public Result<Boolean> dbTx(){
         userService.tx();
         return Result.success(true);
+    }
+
+    @RequestMapping("/redis/get")
+    @ResponseBody
+    public Result<Long> redisGet(){
+        Long v1=redisService.get("key1",Long.class);
+        return Result.success(v1);
     }
 }
