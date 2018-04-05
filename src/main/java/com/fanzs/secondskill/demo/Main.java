@@ -6,5 +6,6 @@ package com.fanzs.secondskill.demo;
 public class Main {
     public void main(String[] args) {
         System.out.println("hello private void main();");
+        System.out.println("改变");
     }
 }
