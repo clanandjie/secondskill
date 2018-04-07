@@ -19,8 +19,8 @@ public class RedisPoolFactory {
     public JedisPool JedisPoolFactory(){
         JedisPoolConfig poolConfig=new JedisPoolConfig();
 
-        System.out.println(redisConfig);
-        System.out.println(poolConfig);
+        /*System.out.println(redisConfig);
+        System.out.println(poolConfig);*/
         //System.out.println(jedisPool);
 
         poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());

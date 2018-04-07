@@ -29,7 +29,7 @@ public class RedisService {
             jedis=jedisPool.getResource();
             String realKey=prefix.getPrefix()+key;
             String str=jedis.get(realKey);
-            T t=stringToBean(realKey,clazz);
+            T t=stringToBean(str,clazz);
             return t;
         }finally {
             returnToJedis(jedis);
@@ -55,7 +55,7 @@ public class RedisService {
             }
             String realKey=prefix.getPrefix()+key;
             int seconds=prefix.expireSeconds();
-            if(seconds<0){
+            if(seconds<=0){
                 jedis.set(realKey,str);
             }else{
                 jedis.setex(realKey,seconds,str);
