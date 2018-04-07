@@ -32,7 +32,7 @@ public class RedisService {
         }
     }
 
-    @Bean
+   /* @Bean
     public JedisPool JedisPoolFactory(){
         JedisPoolConfig poolConfig=new JedisPoolConfig();
 
@@ -48,7 +48,7 @@ public class RedisService {
                 redisConfig.getPort(),redisConfig.getTimeout()*1000,
                 redisConfig.getPassword(),0);
         return jp;
-    }
+    }*/
 
 
 
@@ -57,7 +57,12 @@ public class RedisService {
         try {
             jedis=jedisPool.getResource();
             String str=beanToString(value);
-            if(str==null)return false;
+            if(str==null||str.length()<=0){
+                System.out.println("set error!");
+                return false;
+            }
+            System.out.println("set error!");
+
             jedis.set(key,str);
             return true;
         }finally {

@@ -16,7 +16,7 @@ public class RedisConfig {
     private String password;
     private int poolMaxTotal;
     private int poolMaxIdle;
-    private int poolMaxWait;       //second
+    private int poolMaxWait;        //second
 
     public RedisConfig() {
     }
