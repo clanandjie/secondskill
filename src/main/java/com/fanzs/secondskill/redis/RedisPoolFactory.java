@@ -22,7 +22,7 @@ public class RedisPoolFactory {
         /*System.out.println(redisConfig);
         System.out.println(poolConfig);*/
         //System.out.println(jedisPool);
-        System.out.println("测试更改github");
+        System.out.println("测试更改github123");
 
         poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());
         poolConfig.setMaxTotal(redisConfig.getPoolMaxTotal());
