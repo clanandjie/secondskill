@@ -2,11 +2,9 @@ package com.fanzs.secondskill.redis;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * Created by fzs on 2018/4/1.
@@ -17,59 +15,110 @@ public class RedisService {
     @Autowired
     JedisPool jedisPool;
 
-    @Autowired
-    RedisConfig redisConfig;
-
-    public <T> T get(String key,Class<T> clazz){
+    /**
+     * 获取单个对象
+     * @param prefix
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> T get(KeyPrefix prefix, String key, Class<T> clazz){
         Jedis jedis=null;
         try {
             jedis=jedisPool.getResource();
-            String str=jedis.get(key);
-            T t=stringToBean(str,clazz);
+            String realKey=prefix.getPrefix()+key;
+            String str=jedis.get(realKey);
+            T t=stringToBean(realKey,clazz);
             return t;
         }finally {
             returnToJedis(jedis);
         }
     }
 
-   /* @Bean
-    public JedisPool JedisPoolFactory(){
-        JedisPoolConfig poolConfig=new JedisPoolConfig();
-
-        System.out.println(redisConfig);
-        System.out.println(poolConfig);
-        System.out.println(jedisPool);
-
-        poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());
-        poolConfig.setMaxTotal(redisConfig.getPoolMaxTotal());
-        poolConfig.setMaxWaitMillis(redisConfig.getPoolMaxWait()*1000);
-
-        JedisPool jp=new JedisPool(poolConfig,redisConfig.getHost(),
-                redisConfig.getPort(),redisConfig.getTimeout()*1000,
-                redisConfig.getPassword(),0);
-        return jp;
-    }*/
-
-
-
-    public <T> boolean set(String key,T value){
+    /**
+     * 设置对象
+     * @param prefix
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public <T> boolean set(KeyPrefix prefix, String key, T value){
         Jedis jedis=null;
         try {
             jedis=jedisPool.getResource();
             String str=beanToString(value);
             if(str==null||str.length()<=0){
-                System.out.println("set error!");
+//                System.out.println("set error!");
                 return false;
             }
-            System.out.println("set error!");
-
-            jedis.set(key,str);
+            String realKey=prefix.getPrefix()+key;
+            int seconds=prefix.expireSeconds();
+            if(seconds<0){
+                jedis.set(realKey,str);
+            }else{
+                jedis.setex(realKey,seconds,str);
+            }
             return true;
         }finally {
             returnToJedis(jedis);
         }
     }
 
+    /**
+     * 判断是否存在
+     * @param prefix
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public <T> boolean exists(KeyPrefix prefix,String key){
+        Jedis jedis=null;
+        try {
+            jedis=jedisPool.getResource();
+            String realKey=prefix.getPrefix()+key;
+            return jedis.exists(realKey);
+        }finally {
+            returnToJedis(jedis);
+        }
+    }
+
+    public <T> Long incr(KeyPrefix prefix,String key){
+        Jedis jedis=null;
+        try{
+            jedis=jedisPool.getResource();
+            String realKey=prefix.getPrefix()+key;
+            return jedis.incr(realKey);
+        }finally {
+            returnToJedis(jedis);
+        }
+    }
+
+    /**
+     * 减少单个值
+     * @param prefix
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public <T> Long decr(KeyPrefix prefix,String key){
+        Jedis jedis=null;
+        try{
+            jedis=jedisPool.getResource();
+            String realKey=prefix.getPrefix()+key;
+            return jedis.decr(realKey);
+        }finally {
+            returnToJedis(jedis);
+        }
+    }
+
+    /**
+     * 对象转化为字符串
+     * @param value
+     * @param <T>
+     * @return
+     */
     private <T> String beanToString(T value){
         if(null==value){
             return null;
@@ -86,6 +135,13 @@ public class RedisService {
         }
     }
 
+    /**
+     * 字符串转换为bean 对象
+     * @param str
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     private <T> T stringToBean(String str,Class<T> clazz) {
         if(null==str || str.length()<=0 || clazz==null) {
             return null;
@@ -101,6 +157,10 @@ public class RedisService {
         }
      }
 
+    /**
+     * 归还jedis 到资源池
+     * @param jedis
+     */
     private void returnToJedis(Jedis jedis) {
         if(jedis!=null){
             jedis.close();

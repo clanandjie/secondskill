@@ -7,6 +7,11 @@ public class User {
     private String username;
     private int userId;
 
+    public User( int userId,String username) {
+        this.username = username;
+        this.userId = userId;
+    }
+
     public int getUserId() {
         return userId;
     }

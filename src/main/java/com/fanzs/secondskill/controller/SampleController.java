@@ -2,12 +2,12 @@ package com.fanzs.secondskill.controller;
 
 import com.fanzs.secondskill.entity.User;
 import com.fanzs.secondskill.redis.RedisService;
+import com.fanzs.secondskill.redis.UserKey;
+import com.fanzs.secondskill.redis.KeyPrefix;
 import com.fanzs.secondskill.result.Result;
 import com.fanzs.secondskill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.session.SessionProperties;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,8 +46,17 @@ public class SampleController {
 
     @RequestMapping("/redis/get")
     @ResponseBody
-    public Result<Long> redisGet(){
-        Long v1=redisService.get("key1",Long.class);
-        return Result.success(v1);
+    public Result<User> redisGet(){
+       // Long v1=redisService.get("key1",Long.class);
+        User user=redisService.get(UserKey.getById,""+1,User.class);
+        return Result.success(user);
+    }
+
+    @RequestMapping("/redis/set")
+    @ResponseBody
+    public Result<Boolean> redisSet(){
+        User user=new User(1,"11111");
+        redisService.set(UserKey.getById,"key2","hello,fanzs");
+        return Result.success(true);
     }
 }
