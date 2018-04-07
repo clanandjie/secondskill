@@ -22,13 +22,13 @@ public class LoginController {
 
     private static Logger log= LoggerFactory.getLogger(LoginController.class);
 
-    @RequestMapping("/to_login")
+    @RequestMapping("/thymeleaf/to_login")
     @ResponseBody
     public String  toLogin(){
         return "login";
     }
 
-    @RequestMapping("/do_login")
+    @RequestMapping("/thymeleaf/do_login")
     @ResponseBody
     public Result<Boolean> doLogin(LoginVo loginVo){
         log.info(loginVo.toString());
