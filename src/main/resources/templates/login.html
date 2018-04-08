@@ -70,13 +70,17 @@
                 url:"/login/do_login",
                 type:"POST",
                 data:{
-                    mobile:$("#password").val(),
+                    mobile:$("#mobile").val(),
                     password:password
                 },
-                success:function(){
+                success:function(data){
                     layer.closeAll();
-                    console.log(data);
-                },
+                    if(data.code==0){
+                        layer.msg("成功");
+                    }else{
+                        layer.msg(data.code);
+                    }
+                 },
                 error:function(){
                     layer.closeAll();
                     console.log(data);

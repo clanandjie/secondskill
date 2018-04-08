@@ -2,6 +2,7 @@ package com.fanzs.secondskill.service;
 
 import com.fanzs.secondskill.dao.UserDao;
 import com.fanzs.secondskill.entity.User;
+import com.fanzs.secondskill.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +37,8 @@ public class UserService {
         u2.setUsername("事物");
         userDao.insert(u2);
         return true;
+    }
+
+    public void login(LoginVo loginVo) {
     }
 }
