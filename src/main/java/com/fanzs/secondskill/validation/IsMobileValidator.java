@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.Validation;
 
 /**
  * Created by fzs on 2018/4/8.

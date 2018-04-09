@@ -14,13 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
-    private SecondsKillUserService userService;
+    private SecondsKillUserService secondskillUserService;
 
     @Autowired
     private RedisService redisService;
@@ -34,25 +35,10 @@ public class LoginController {
 
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result<Boolean> doLogin(@Valid LoginVo loginVo){
+    public Result<Boolean> doLogin(HttpServletResponse response,@Valid LoginVo loginVo){
         log.info(loginVo.toString());
-//        String passwordInput=loginVo.getPassword();
-//        String mobile=loginVo.getMobile();
-//
-//        if(StringUtils.isEmpty(passwordInput)){
-//            return Result.error(CodeMsg.PASSWORD_EMPTY);
-//        }
-//        if(StringUtils.isEmpty(mobile)){
-//            return Result.error(CodeMsg.MOBILE_EMPTY);
-//        }
-//        if(!ValidationUtil.isMobile(mobile)){
-//            return Result.error(CodeMsg.MOBILE_ERROR);
-//        }
-        CodeMsg codeMsg=userService.login(loginVo);
-        if(codeMsg.getCode()==0){
-            return Result.success(true);
-        }else{
-            return Result.error(codeMsg);
-        }
+        boolean ret=secondskillUserService.login(response,loginVo);
+        return Result.success(true);
+
     }
 }

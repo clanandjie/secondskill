@@ -3,7 +3,6 @@ package com.fanzs.secondskill.controller;
 import com.fanzs.secondskill.entity.User;
 import com.fanzs.secondskill.redis.RedisService;
 import com.fanzs.secondskill.redis.UserKey;
-import com.fanzs.secondskill.redis.KeyPrefix;
 import com.fanzs.secondskill.result.Result;
 import com.fanzs.secondskill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * Created by fzs on 2018/3/31.
- */
 @Controller
 @RequestMapping("/demo")
 public class SampleController {

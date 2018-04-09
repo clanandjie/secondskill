@@ -13,7 +13,7 @@ public class SecondsKillUser {
     private String head;
     private int loginCount;
     private Date lastLoginDate;
-    private Date register;
+    private Date registerDate;
 
     public long getId() {
         return id;
@@ -71,11 +71,11 @@ public class SecondsKillUser {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public Date getRegister() {
-        return register;
+    public Date getRegisterDate() {
+        return registerDate;
     }
 
-    public void setRegister(Date register) {
-        this.register = register;
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 }

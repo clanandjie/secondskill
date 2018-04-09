@@ -2,43 +2,79 @@ package com.fanzs.secondskill.service;
 
 import com.fanzs.secondskill.dao.SecondsKillUserDao;
 import com.fanzs.secondskill.entity.SecondsKillUser;
+import com.fanzs.secondskill.exception.GlobalException;
+import com.fanzs.secondskill.redis.RedisService;
+import com.fanzs.secondskill.redis.SecondsKillUserKey;
 import com.fanzs.secondskill.result.CodeMsg;
 import com.fanzs.secondskill.util.MD5Util;
+import com.fanzs.secondskill.util.UUIDUtil;
 import com.fanzs.secondskill.vo.LoginVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.annotation.XmlElementDecl;
 
 @Service
 public class SecondsKillUserService {
+
+    public static final String COOKIE_NAME_TOKEN="token";
+
     @Autowired
     private SecondsKillUserDao secondsKillUserDao;
+
+    @Autowired
+    private RedisService redisService;
 
     public SecondsKillUser getById(long id){
         return secondsKillUserDao.getById(id);
     }
 
-    public CodeMsg login(LoginVo loginVo){
+    public boolean login(HttpServletResponse response,LoginVo loginVo){
         if(loginVo==null){
-            return CodeMsg.MOBILE_EMPTY;
-            //throw new GlobalException(CodeMsg.SERVER_ERROR);
+            throw  new GlobalException(CodeMsg.MOBILE_EMPTY);
         }
         String mobile=loginVo.getMobile();
         String formPassword=loginVo.getPassword();
 
         SecondsKillUser user=getById(Long.parseLong(mobile));
         if(user==null){
-            return CodeMsg.MOBILE_NOT_EXIST;
+            throw  new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
-        //
+        //验证密码，两次MD5加密
         String dbPass=user.getPassword();
         String saltDB=user.getSalt();
         String calcPass= MD5Util.formToDB(formPassword,saltDB);
         if(!calcPass.equals(dbPass)){
-            return CodeMsg.PASSWORD_ERROR;
+            throw  new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-        return CodeMsg.SUCCESS;
+        //
+       addCookie(response,user);
+        return true;
+    }
+
+    private void addCookie(HttpServletResponse response,SecondsKillUser user){
+        String token = UUIDUtil.uuid();
+        redisService.set(SecondsKillUserKey.token,token,user);
+        Cookie cookie=new Cookie(COOKIE_NAME_TOKEN,token);
+        cookie.setMaxAge(SecondsKillUserKey.token.expireSeconds());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    /**
+     *
+     * @param token
+     * @return
+     */
+    public SecondsKillUser getByToken(HttpServletResponse response,String token) {
+        if(StringUtils.isEmpty(token)){
+            return null;
+        }
+        SecondsKillUser secondsKillUser=redisService.get(SecondsKillUserKey.token,token,SecondsKillUser.class);
+        if(!(secondsKillUser==null))
+            addCookie(response,secondsKillUser);
+        return secondsKillUser;
     }
 }
