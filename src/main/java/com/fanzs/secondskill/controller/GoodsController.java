@@ -24,14 +24,7 @@ public class GoodsController {
     private static Logger log = LoggerFactory.getLogger(GoodsController.class);
 
     @RequestMapping("/to_list")
-    public String toLogin(HttpServletResponse response,Model model,
-                          @CookieValue(value = SecondsKillUserService.COOKIE_NAME_TOKEN,required = false) String cookieToken,
-                          @RequestParam(value=SecondsKillUserService.COOKIE_NAME_TOKEN,required = false)String paramToken) {
-        if(StringUtils.isEmpty(cookieToken)&&StringUtils.isEmpty(paramToken)){
-            return "login";
-        }
-        String token=StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-        SecondsKillUser secondsKillUser=secondskillUserService.getByToken(response,token);
+    public String list(Model model,SecondsKillUser secondsKillUser){
         model.addAttribute("user", secondsKillUser);
         return "goods_list";
     }

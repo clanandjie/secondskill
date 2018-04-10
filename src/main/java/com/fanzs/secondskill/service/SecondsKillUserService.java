@@ -50,12 +50,12 @@ public class SecondsKillUserService {
             throw  new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
         //
-       addCookie(response,user);
+        String token = UUIDUtil.uuid();
+        addCookie(response,token,user);
         return true;
     }
 
-    private void addCookie(HttpServletResponse response,SecondsKillUser user){
-        String token = UUIDUtil.uuid();
+    private void addCookie(HttpServletResponse response,String token,SecondsKillUser user){
         redisService.set(SecondsKillUserKey.token,token,user);
         Cookie cookie=new Cookie(COOKIE_NAME_TOKEN,token);
         cookie.setMaxAge(SecondsKillUserKey.token.expireSeconds());
@@ -73,8 +73,8 @@ public class SecondsKillUserService {
             return null;
         }
         SecondsKillUser secondsKillUser=redisService.get(SecondsKillUserKey.token,token,SecondsKillUser.class);
-        if(!(secondsKillUser==null))
-            addCookie(response,secondsKillUser);
+        if(secondsKillUser!=null)
+            addCookie(response,token,secondsKillUser);
         return secondsKillUser;
     }
 }

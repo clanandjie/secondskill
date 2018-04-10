@@ -50,7 +50,6 @@ public class RedisService {
             jedis=jedisPool.getResource();
             String str=beanToString(value);
             if(str==null||str.length()<=0){
-//                System.out.println("set error!");
                 return false;
             }
             String realKey=prefix.getPrefix()+key;
