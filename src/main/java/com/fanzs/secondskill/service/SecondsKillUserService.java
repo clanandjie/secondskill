@@ -17,7 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
-public class SecondsKillUserService {
+public class SecondskillUserService {
 
     public static final String COOKIE_NAME_TOKEN="token";
 

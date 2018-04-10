@@ -44,4 +44,8 @@ public class CodeMsg {
     //商品模块
     //订单模块
     //秒杀模块
+    public static CodeMsg SECONDSKILL_OVER=new CodeMsg(500500,"商品已经抢购完！");
+    public static CodeMsg SECONDSKILL_REPEAT=new CodeMsg(500501,"每人限购一件！");
+
+
 }

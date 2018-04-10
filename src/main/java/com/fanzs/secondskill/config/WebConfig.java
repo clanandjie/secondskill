@@ -13,7 +13,7 @@ import java.util.List;
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
-    UserArgumentResolver userArgumentResolver;
+    public UserArgumentResolver userArgumentResolver;
 
 
     @Override

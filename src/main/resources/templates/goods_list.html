@@ -30,7 +30,7 @@
                 <td th:text="${goods.goodsImage}"></td>
                 <td th:text="${goods.secondskillPrice}"></td>
                 <td th:text="${goods.secondskillStockCount}"></td>
-                <td th:text="${goods.goodsDetail}"></td>
+                <td><a th:href="'/goods/to_detail/'+${goods.goodsId}">详情</a></td>
             </tr>
         </table>
     </div>

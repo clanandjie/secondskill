@@ -1,7 +1,7 @@
 package com.fanzs.secondskill.config;
 
 import com.fanzs.secondskill.entity.SecondsKillUser;
-import com.fanzs.secondskill.service.SecondsKillUserService;
+import com.fanzs.secondskill.service.SecondskillUserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserArgumentResolver implements HandlerMethodArgumentResolver{
 
     @Autowired
-    SecondsKillUserService secondsKillUserService;
+    SecondskillUserService secondskillUserService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -36,13 +36,13 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver{
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 
-        String paramToken=request.getParameter(SecondsKillUserService.COOKIE_NAME_TOKEN);
-        String cookieToken=getCookieValue(request,SecondsKillUserService.COOKIE_NAME_TOKEN);
+        String paramToken=request.getParameter(SecondskillUserService.COOKIE_NAME_TOKEN);
+        String cookieToken=getCookieValue(request, SecondskillUserService.COOKIE_NAME_TOKEN);
         if(StringUtils.isEmpty(cookieToken)&&StringUtils.isAllBlank(paramToken)){
             return null;
         }
         String token=StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-        return secondsKillUserService.getByToken(response,token);
+        return secondskillUserService.getByToken(response,token);
     }
 
     private String getCookieValue(HttpServletRequest request, String cookieNameToken) {

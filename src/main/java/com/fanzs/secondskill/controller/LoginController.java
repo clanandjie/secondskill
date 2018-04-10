@@ -1,12 +1,9 @@
 package com.fanzs.secondskill.controller;
 
 import com.fanzs.secondskill.redis.RedisService;
-import com.fanzs.secondskill.result.CodeMsg;
 import com.fanzs.secondskill.result.Result;
-import com.fanzs.secondskill.service.SecondsKillUserService;
-import com.fanzs.secondskill.util.ValidationUtil;
+import com.fanzs.secondskill.service.SecondskillUserService;
 import com.fanzs.secondskill.vo.LoginVo;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
-    private SecondsKillUserService secondskillUserService;
+    private SecondskillUserService secondskillUserService;
 
     @Autowired
     private RedisService redisService;

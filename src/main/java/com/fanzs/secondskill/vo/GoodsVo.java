@@ -17,6 +17,16 @@ public class GoodsVo extends Goods {
         return secondskillPrice;
     }
 
+    @Override
+    public String toString() {
+        return "GoodsVo{" +
+                "secondskillStockCount=" + secondskillStockCount +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", secondskillPrice=" + secondskillPrice +
+                '}';
+    }
+
     public void setSecondskillPrice(Double secondskillPrice) {
         this.secondskillPrice = secondskillPrice;
     }
